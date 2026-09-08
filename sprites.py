@@ -43,7 +43,7 @@ class WildFlower(Generic):
 
 
 class Tree(Generic):
-    def __init__(self, pos, surf, groups, name):
+    def __init__(self, pos, surf, groups, name, all_sprites):
         super().__init__(pos, surf, groups)
 
         # tree attributes
@@ -54,10 +54,12 @@ class Tree(Generic):
         self.invul_timer = Timer(200)
 
         # apples
-        self.apple_surf = pygame.image.load('./s4 - Animations/graphics/fruit/apple.png')
+        self.apple_surf = pygame.image.load('./s4 - Animations/graphics/fruit/apple.png').convert_alpha()
         self.apple_pos = APPLE_POS[name]
         self.apple_sprites = pygame.sprite.Group()
+        self.all_sprites = all_sprites
         self.create_fruit()
+    
 
     def damage(self):
         #damaging the tree
@@ -84,5 +86,5 @@ class Tree(Generic):
                 Generic(
                     pos=(x, y),
                     surf=self.apple_surf,
-                    groups=[self.apple_sprites, self.groups()[0]],
+                    groups=[self.apple_sprites, self.all_sprites],
                     z=LAYERS['fruit'])
