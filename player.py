@@ -4,7 +4,7 @@ from support import *
 from timer import Timer
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, group, collision_sprites, tree_sprites):
+    def __init__(self, pos, group, collision_sprites, tree_sprites, interaction):
         super().__init__(group)
 
         self.import_assets()
@@ -54,6 +54,8 @@ class Player(pygame.sprite.Sprite):
 
         #interaction
         self.tree_sprites = tree_sprites
+        self.interaction = interaction
+        self.sleep = False
 
     def use_tool(self):
         print('use tool')
@@ -149,6 +151,16 @@ class Player(pygame.sprite.Sprite):
                 self.seeds_index = 0
                 #if seed_index > length of seeds => seed index = 0
             self.selected_seed = self.seeds[self.seeds_index]
+
+        if keys[pygame.K_RETURN]:
+            collided_interaction_sprites = pygame.sprite.spritecollide(self, self.interaction , False)
+            if collided_interaction_sprites:
+                if collided_interaction_sprites[0].name == 'Trader':
+                    pass
+                else:
+                    self.status = 'left_idle'
+                    self.sleep = True
+
 
     def get_status(self):
         #idle
