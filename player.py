@@ -4,7 +4,7 @@ from support import *
 from timer import Timer
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, group, collision_sprites, tree_sprites, interaction):
+    def __init__(self, pos, group, collision_sprites, tree_sprites, interaction, soil_Layer):
         super().__init__(group)
 
         self.import_assets()
@@ -43,6 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.seeds = ['corn','tomato']
         self.seeds_index = 0
         self.selected_seed = self.seeds[self.seeds_index]
+        self.soil_layer = soil_Layer
 
         # inventory
         self.item_inventory = {
@@ -58,9 +59,9 @@ class Player(pygame.sprite.Sprite):
         self.sleep = False
 
     def use_tool(self):
-        print('use tool')
+
         if self.selected_tool == 'hoe':
-            pass
+            self.soil_layer.get_hit(self.target_pos)
 
         if self.selected_tool == 'axe':
             for tree in self.tree_sprites.sprites():
@@ -99,7 +100,7 @@ class Player(pygame.sprite.Sprite):
 
         keys = pygame.key.get_pressed()
 
-        if not self.timers['tool use'].active:
+        if not self.timers['tool use'].active and not self.sleep:
             #directions
             if keys[pygame.K_UP]:
                 self.direction.y = -1

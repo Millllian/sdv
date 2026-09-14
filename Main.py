@@ -2,6 +2,7 @@ import pygame, sys
 from Settings import *
 from Level import Level
 
+
 class Game:
     def __init__(self):
         pygame.init()
