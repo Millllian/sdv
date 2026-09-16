@@ -25,8 +25,6 @@ class Level:
         self.overlay = Overlay(self.player)
         self.transition = Transition(self.reset, self.player)
         
-        
-
     def setup(self):
         tmx_data = load_pygame('./s4 - Animations/data/map.tmx')
 
@@ -96,6 +94,9 @@ class Level:
 
     def reset(self):
 
+        #soil
+        self.soil_layer.remove_water()
+ 
         #apples on the trees
         for tree in self.tree_sprites.sprites():
             for apple in tree.apple_sprites.sprites():
