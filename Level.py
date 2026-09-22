@@ -21,7 +21,7 @@ class Level:
         self.tree_sprites = pygame.sprite.Group()
         self.interaction_sprites = pygame.sprite.Group()
 
-        self.soil_layer = soilLayer(self.all_sprites)
+        self.soil_layer = soilLayer(self.all_sprites, self.collision_sprites)
         #calling the setup method
         self.setup()
         self.overlay = Overlay(self.player)
@@ -100,6 +100,9 @@ class Level:
         self.player.item_inventory[item] += 1
 
     def reset(self):
+
+        #plants
+        self.soil_layer.update_plants()
 
         #soil
         self.soil_layer.remove_water()

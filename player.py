@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         #movement attributes
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
-        self.speed = 400
+        self.speed = 300
 
         #collision
         self.hitbox = self.rect.copy().inflate((-126,-70))
@@ -75,8 +75,8 @@ class Player(pygame.sprite.Sprite):
         self.target_pos = self.rect.center + PLAYER_TOOL_OFFSET[self.status.split('_')[0]]
 
     def use_seed(self):
-        pass
-        #print(self.selected_seed)
+        self.soil_layer.plant_seed(self.target_pos, self.selected_seed)
+        
 
     def import_assets(self):
         self.animations = {'up': [], 'down': [], 'left': [], 'right': [],
