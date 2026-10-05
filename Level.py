@@ -7,7 +7,7 @@ from pytmx.util_pygame import load_pygame
 from support import *
 from Transition import Transition
 from soil import soilLayer
-from sky import Rain
+from sky import Rain, Sky
 from random import randint
 
 class Level:
@@ -31,6 +31,7 @@ class Level:
         self.rain = Rain(self.all_sprites)
         self.raining = randint(0,10) > 3 
         self.soil_layer.raining = self.raining
+        self.sky = Sky()
         
     def setup(self):
         tmx_data = load_pygame('./s4 - Animations/data/map.tmx')
@@ -125,6 +126,7 @@ class Level:
                     self.player_add(plant.plant_type)
                     plant.kill()
                     Particle(plant.rect.topleft, plant.image, self.all_sprites, z = LAYERS['main'])
+                    self.soil_layer.grid[plant.rect.centery // TILE_SIZE][plant.rect.centerx // TILE_SIZE].remove('P')
 
     def run(self,dt):
 
@@ -138,6 +140,9 @@ class Level:
         #rain
         if self.raining: 
             self.rain.update()
+        
+        #daytime 
+        self.sky.display(dt)
 
         #transition overlay
         if self.player.sleep:
