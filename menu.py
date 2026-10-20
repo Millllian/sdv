@@ -8,7 +8,43 @@ class Menu:
         self.player = player
         self.toggle_menu = toggle_menu
         self.display_surface = pygame.display.get_surface()
-        self.font = pygame.font.Font('./s4 - Animations/graphics/font/lycheeSoda.ttf',30)
+        self.font = pygame.font.Font('./s4 - Animations/font/lycheeSoda.ttf',30)
+
+        #options
+        self.width = 400
+        self.space = 10
+        self.padding = 8
+        
+        # entries
+        self.options = list(self.player.item_inventory.keys()) + list(self.player.seed_inventory.keys())
+        self.sell_order = len(self.player.item_inventory) - 1
+        self.setup()
+        
+    def setup(self):
+        #create the text surfaces
+        self.text_surfs = []
+        self.total_height = 0
+        
+        for item in self.options:
+            text_surface = self.font.render(item, False, 'Black')
+            self.text_surfs.append(text_surface)
+            self.total_height += text_surface.get_height() + (self.padding * 2)
+            
+        self.total_height += (len(self.text_surfs) - 1) * self.space
+        self.menu_top = (SCREEN_HEIGHT / 2 - self.total_height / 2)
+        self.main_rect = pygame.Rect(SCREEN_WIDTH / 2 - self.width / 2, self.menu_top, self.width, self.total_height)
+
+    def input(self):
+        #get the input
+        #if the player presses the escape key, toggle the menu
+        keys = pygame.key.get_pressed()
+        
+        if keys[pygame.K_ESCAPE]:
+            self.toggle_menu()
 
     def update(self):
-        self.display_surface.blit(Surface(1000,1000), (0,0)) 
+        self.input()
+        pygame.draw.rect(self.display_surface, 'Red', self.main_rect)
+        #for text_index,text_surf in enumerate(self.text_surfaces):
+         #   self.display_surface.blit(text_surf, (100, text_index * 50))
+            

@@ -136,6 +136,9 @@ class Level:
             for apple in tree.apple_sprites.sprites():
                 apple.kill()
             tree.create_fruit()
+            
+        #sky
+        self.sky.start_color = [255, 255, 255]
 
     def plant_collisions(self):
         if self.soil_layer.plant_sprites:
@@ -160,14 +163,11 @@ class Level:
             self.all_sprites.update(dt)
             self.plant_collisions()
 
+        #weather
         self.overlay.display()
-
-        #rain
-        if self.raining: 
+        if self.raining and not self.shop_active: 
             self.rain.update()
-        
-        #daytime 
-        self.sky.display(dt)
+        self.sky.display(dt)  
 
         #transition overlay
         if self.player.sleep:
